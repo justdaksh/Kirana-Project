@@ -1,6 +1,19 @@
-exports.getAllProducts = (req, res) => {
-    
+const Product = require("../models/productModel");
+
+// now to Create product
+exports.createProduct = async (req, res, next) => {
+    const product = await Product.create(req.body)
+    res.status(201).json({
+        success: true,
+        product
+    })
+}
+
+// to get all products
+exports.getAllProducts = async(req, res) => {
+    const products = await Product.find();
     res.status(200).json({
-        message: "route is working fine"
+        success: true,
+        products
     })
 }
