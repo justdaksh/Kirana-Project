@@ -1,0 +1,12 @@
+const mongoose = require("mongoose");
+mongoose.set('strictQuery', true); //done to handle the mongoose 7 strictquery 
+// Connecting databse
+const connectDatabse = () => {
+    mongoose.connect(process.env.DB_URI).then((data) => {
+        console.log(`MongoDB connected to server : ${data.connection.host}`);
+    }).catch((err) => {
+        console.log(err);
+    })
+}
+
+module.exports = connectDatabse;
