@@ -1,6 +1,7 @@
 
 const bodyParser = require("body-parser");
 const path = require("path");
+const errorMiddleware = require("./middleware/error")
 
 // for express
 const express = require("express");
@@ -17,6 +18,7 @@ const product = require("./routes/productRoute");
 // Base Route for Product Operations
 app.use("/api/v1",product);
 
-
+// Middleware for error
+app.use(errorMiddleware);
 
 module.exports = app;
