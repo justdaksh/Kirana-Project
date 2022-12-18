@@ -20,7 +20,7 @@ class ApiFeatures {
     filter() {
         const querycopy = { ...this.querystr }; // ... gives a copy to querystr object not real one
         
-        // remove fields for category
+        // remove fields for category 
         const removeFeilds = ["keyword", "page", "limit"];
       removeFeilds.forEach((key) => delete querycopy[key]); // removes queries not required to work upon
       // Filter for Price and Rating
