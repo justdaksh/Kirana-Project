@@ -13,8 +13,9 @@ exports.createProduct = catchAsyncErrors(async(req,res, next) => {
 
 // to get all products
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
-
-    const apiFeature = new ApiFeatures(Product.find(), req.query).search().filter();
+    const resultPerPage = 5;
+    const productCount = Product.countDocuments();
+    const apiFeature = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resultPerPage);
     const products = await apiFeature.query;// gives Product.find() i.e, all products to the variable.
 
     if (!products) {
@@ -22,7 +23,8 @@ exports.getAllProducts = catchAsyncErrors(async (req, res) => {
     }
     res.status(200).json({
         success: true,
-        products
+        products,
+        productCount,
     })
 });
 // Update Product -- Admin

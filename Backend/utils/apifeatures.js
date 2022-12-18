@@ -27,12 +27,23 @@ class ApiFeatures {
       
       let querystr = JSON.stringify(querycopy); // convert object to string to add $ sign as mongo db operator have it in front
       // lt gt gte lte are inbuilt in mongo db
+      
       querystr = querystr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${ key }`); //using regex to add $
 
       this.query = this.query.find(JSON.parse(querystr)); //returning converting string to object
       
       return this;
-    }
+  }
+  // Paginaion Api Call
+  pagination(resultPerPage) {
+    const currentPage = Number(this.querystr.page || 1); // current page defalut 1 else given value
+    
+    const skip = resultPerPage * (currentPage - 1); // formula to calc skip value
+
+    this.query = this.query.limit(resultPerPage).skip(skip); //selts view items limit per page and skip value
+
+    return this;
+  }
 };
 
 module.exports = ApiFeatures;
