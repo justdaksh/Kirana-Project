@@ -1,6 +1,7 @@
 const Product = require("../models/productModel");
 const Errorhandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
+const ApiFeatures = require("../utils/apifeatures");
 // now to Create product -- Admin
 exports.createProduct = catchAsyncErrors(async(req,res, next) => {
     const product = await Product.create(req.body)
@@ -12,7 +13,10 @@ exports.createProduct = catchAsyncErrors(async(req,res, next) => {
 
 // to get all products
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
-    const products = await Product.find();
+
+    const apiFeature = new ApiFeatures(Product.find(), req.query).search().filter();
+    const products = await apiFeature.query;// gives Product.find() i.e, all products to the variable
+
     if (!products) {
         return next(new Errorhandler("Product not Found", 404))
     }
