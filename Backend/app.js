@@ -12,11 +12,12 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // importing Routes
-const product = require("./routes/productRoute");
-
+const productRoute = require("./routes/productRoute");
+const userRoute = require("./routes/userRoute");
 
 // Base Route for Product Operations
-app.use("/api/v1",product);
+app.use("/api/v1", productRoute);
+app.use("/api/v1", userRoute);
 
 // Middleware for error
 app.use(errorMiddleware);
