@@ -3,18 +3,20 @@ const Errorhandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const ApiFeatures = require("../utils/apifeatures");
 // now to Create product -- Admin
-exports.createProduct = catchAsyncErrors(async(req,res, next) => {
-    const product = await Product.create(req.body)
+exports.createProduct = catchAsyncErrors(async (req, res, next) => {
+    
+    const product = await Product.create(req.body) ;
     res.status(201).json({
         success: true,
         product
     })
+
 });
 
 // to get all products
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
     const resultPerPage = 5;
-    const productCount = Product.countDocuments();
+    const productCount = await Product.countDocuments();
     const apiFeature = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resultPerPage);
     const products = await apiFeature.query;// gives Product.find() i.e, all products to the variable.
 
