@@ -2,7 +2,6 @@
 
 const sendToken = (user, statusCode, res) => {
     const token = user.getJWTToken();
-
     //cookie
     const option = {
         expires: new Date(
