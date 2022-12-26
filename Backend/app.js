@@ -2,6 +2,7 @@
 const bodyParser = require("body-parser");
 const path = require("path");
 const errorMiddleware = require("./middleware/error")
+const cookieParser = require("cookie-parser");
 
 // for express
 const express = require("express");
@@ -10,6 +11,9 @@ app.use(express.json());
 
 // for body parser
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//for cookie parser
+app.use(cookieParser())
 
 // importing Routes
 const productRoute = require("./routes/productRoute");
