@@ -14,7 +14,8 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     next(); // Allow the Resource
 })
 
-exports.authorizeRoles = (...roles) => { // func takes the allowed roles in it
+ // func takes the allowed roles in it
+exports.authorizeRoles = (...roles) => {
     
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) { // if roles array dont have role given to user we give error
