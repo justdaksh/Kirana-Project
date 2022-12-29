@@ -10,10 +10,10 @@ const router = express.Router();
 router.get('/products', getAllProducts);
 
 // route to create product
-router.post('/products/new',isAuthenticatedUser,authorizeRoles("admin"), createProduct);
+router.post('/admin/products/new',isAuthenticatedUser,authorizeRoles("admin"), createProduct);
 
 // route to update || delete || get detail of single product
-router.put('/products/:id',isAuthenticatedUser,authorizeRoles("admin"), updateProduct).delete('/products/:id',isAuthenticatedUser,authorizeRoles("admin"), deleteProduct).get("/products/:id", getProductDetails);
+router.put('/admin/products/:id',isAuthenticatedUser,authorizeRoles("admin"), updateProduct).delete('/admin/products/:id',isAuthenticatedUser,authorizeRoles("admin"), deleteProduct).get("/products/:id", getProductDetails);
 
 
 
