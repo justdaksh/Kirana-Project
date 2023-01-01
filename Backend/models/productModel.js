@@ -16,7 +16,7 @@ const productSchema = mongoose.Schema({
         required: [true, "Please Enter Product Price"],
         maxLength:[8,"Price Cannot exceed 8 characters"]
     },
-    rating: {
+    ratings: {
         type: Number,
         default: 0,
     },
@@ -42,7 +42,7 @@ const productSchema = mongoose.Schema({
         maxLength: [4, "Stock Cannot exceed 4 character"],
         default:1
     },
-    numOfreviews: {
+    numOfReviews: {
         type:Number,
         default: 0,
     },
@@ -59,7 +59,12 @@ const productSchema = mongoose.Schema({
             comment: {
                 type: String,
                 required: true
-            }
+            },
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: "User",
+                required:true,
+            },
         }
     ],
     //Adding user to get the details of who created the item
