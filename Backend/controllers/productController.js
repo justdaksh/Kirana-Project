@@ -31,10 +31,11 @@ exports.getAllProducts = catchAsyncErrors(async (req, res) => {
 });
 // Update Product -- Admin
 exports.updateProduct = catchAsyncErrors(async (req, res,next) => {
-    let product = await Product.findById(req.params.id);
+    let product = await Product.findById(req.params.id); // find product by id
     if (!product) {
         return next(new Errorhandler("Product not Found",404))
     }
+    // update with the body and params 
     product = await Product.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true,useFindAndModify:false})
     res.status(200).json({
         success: true,
@@ -43,7 +44,7 @@ exports.updateProduct = catchAsyncErrors(async (req, res,next) => {
 })
 // Delete Product - Admin
 exports.deleteProduct = async(req,res,next)=> {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id); //find product by id and delete
     if (!product) {
         return next(new Errorhandler("Product not Found",404))
     }
@@ -56,10 +57,51 @@ exports.deleteProduct = async(req,res,next)=> {
 
 // get Product Details
 exports.getProductDetails = catchAsyncErrors(async (req, res, next) => {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id); // find product By id and return 
     if (!product) {
         return next(new Errorhandler("Product not Found", 404))
     }
+    res.status(200).json({
+        success: true,
+        product
+    })
+});
+
+// Create a Review or Update 
+exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
+    const { rating, comment, productId } = req.body;
+    // review object having user's name id rating and comment
+    const review = { 
+        user: req.user.id,
+        name: req.user.name,
+        rating: Number(rating),
+        comment,
+    }
+    // find the prodict by id and check if this user have reviewed before
+    const product = await Product.findById(productId);
+    const isReviewed = product.reviews.find(rev => rev.user.toString() === req.user.id.toString());
+
+    //if reviewed then update the prev review
+    if (isReviewed) {
+        product.reviews.forEach(rev => {
+            if (rev.user.toString() === req.user.id.toString()) {
+                rev.rating = rating
+                rev.comment = comment   
+            }
+        });
+    } else {  // Else push the new array into object
+        product.reviews.push(review);
+        product.numOfReviews = product.reviews.length; // increase the ocerall review for that product
+    }
+
+    //Calculation for avrage reviews for that product
+    let avg = 0;
+    product.reviews.forEach(rev => {
+        avg += Number(rev.rating);
+    })
+    product.ratings = avg / product.reviews.length;
+
+    await product.save({ validateBeforeSave: false }); // save to Database
     res.status(200).json({
         success: true,
         product
