@@ -1,6 +1,6 @@
 // import express as express
 const express = require("express");
-const { getAllProducts,createProduct, updateProduct, deleteProduct, getProductDetails, createProductReview } = require("../controllers/productController");
+const { getAllProducts,createProduct, updateProduct, deleteProduct, getProductDetails, createProductReview, getProductReviews, deleteReview } = require("../controllers/productController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
 // first make a Router to handle routes
@@ -15,8 +15,8 @@ router.post('/admin/products/new',isAuthenticatedUser,authorizeRoles("admin"), c
 // route to update || delete || get detail of single product
 router.put('/admin/products/:id',isAuthenticatedUser,authorizeRoles("admin"), updateProduct).delete('/admin/products/:id',isAuthenticatedUser,authorizeRoles("admin"), deleteProduct).get("/products/:id", getProductDetails);
 
-//route to Create a Review
-router.put('/review',isAuthenticatedUser,createProductReview)
+//routes for review
+router.put('/review', isAuthenticatedUser, createProductReview).get('/reviews', getProductReviews).delete('/reviews', isAuthenticatedUser, deleteReview);
 
 
 
