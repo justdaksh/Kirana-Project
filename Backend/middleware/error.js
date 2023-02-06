@@ -7,7 +7,7 @@ module.exports = (err,req,res,next) => {
 
     // Mongo Db error
     if (err.name === "CastError") {
-        const message = `Respurce not found : ${err.path}`;
+        const message = `Resource not found : ${err.path}`;
         err = new ErrorHandler(message, 400);
     }
     // Mongoose Duplicate key Error
